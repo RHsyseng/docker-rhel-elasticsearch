@@ -1,0 +1,13 @@
+cluster:
+  name: elasticsearch
+network:
+  host: 0.0.0.0
+cloud:
+  kubernetes:
+    service: ${SERVICE}
+    namespace: ${NAMESPACE}
+discovery:
+  zen.hosts_provider: kubernetes
+  zen.minimum_master_nodes: "${NODE_QUORUM}"
+path:
+  data: /elasticsearch/persistent/elasticsearch/data
