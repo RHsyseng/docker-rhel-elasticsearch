@@ -11,3 +11,4 @@ discovery:
   zen.minimum_master_nodes: "${NODE_QUORUM}"
 path:
   data: /elasticsearch/persistent/elasticsearch/data
+  logs: /elasticsearch/logs
