@@ -17,3 +17,4 @@ done
 
 mkdir /elasticsearch
 chmod -R og+w ${ES_PATH_CONF} ${ES_HOME} ${HOME} /elasticsearch
+chmod a+r /etc/sysconfig/elasticsearch
