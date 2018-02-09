@@ -6,7 +6,7 @@ EXPOSE 9200
 EXPOSE 9300
 USER 0
 
-ARG ES_VERSION=6.1.2
+ARG ES_VERSION=6.2.1
 
 ENV ES_CLOUD_K8S_VER=${ES_VERSION} \
     ES_PATH_CONF=/etc/elasticsearch \
@@ -35,9 +35,9 @@ RUN yum install -y --setopt=tsflags=nodocs \
     yum clean all
 
 COPY install.sh ${HOME}/
-# BEGIN - While elasticsearch-cloud-kubernetes-6.1.2 is not available on maven repo
-COPY elasticsearch-cloud-kubernetes-6.1.2-SNAPSHOT.zip ${HOME}
-ENV ES_CLOUD_K8S_URL=file://${HOME}/elasticsearch-cloud-kubernetes-6.1.2-SNAPSHOT.zip
+# BEGIN - While elasticsearch-cloud-kubernetes-6.2.1 is not available on maven repo
+COPY elasticsearch-cloud-kubernetes-6.2.1-SNAPSHOT.zip ${HOME}
+ENV ES_CLOUD_K8S_URL=file://${HOME}/elasticsearch-cloud-kubernetes-6.2.1-SNAPSHOT.zip
 # END
 COPY config/* ${ES_PATH_CONF}/
 RUN ${HOME}/install.sh && \
