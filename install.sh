@@ -16,4 +16,5 @@ do
 done
 
 mkdir /elasticsearch
-chmod -R og+w ${ES_PATH_CONF} ${ES_HOME} ${HOME} /elasticsearch
+chmod -R a+rX ${ES_PATH_CONF} /elasticsearch
+chmod -R a+wx /elasticsearch
