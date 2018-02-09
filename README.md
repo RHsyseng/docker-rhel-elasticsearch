@@ -17,4 +17,5 @@ serviceaccount "elasticsearch" created
 The elasticsearch-cloud-kubernetes plugin requires the ServiceAccount to be allowed to get the endpoints
 ```
 $ oc adm policy add-role-to-user view -z elasticsearch
+$ oc env statefulset/elasticsearch NAMESPACE=`oc project -q`
 ```
