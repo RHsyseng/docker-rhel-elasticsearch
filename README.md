@@ -3,6 +3,8 @@
 This image includes the [elasticsearch-cloud-kubernetes](https://github.com/fabric8io/elasticsearch-cloud-kubernetes) plugin pre-installed along with
 a default jvm configuration to get the Heap configuration from the cgroups.
 
+* [RHEL 7.3 image](./Dockerfile)
+* [CentOS 7 image](./Dockerfile.centos7)
 * Installation of Elasticsearch 5.5.2 is done through RPMs
 
 An example deployment file is also included:
