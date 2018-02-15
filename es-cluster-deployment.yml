@@ -101,15 +101,15 @@ spec:
   - name: 6.2.1
     from:
       kind: DockerImage
-      name: ruromero/openshift-elasticsearch:6.2.1
+      name: registry.centos.org/rhsyseng/elasticsearch:6.2.1
   - name: 6.1.2
     from:
       kind: DockerImage
-      name: ruromero/openshift-elasticsearch:6.1.2
+      name: registry.centos.org/rhsyseng/elasticsearch:6.1.2
   - name: 5.5.2
     from:
       kind: DockerImage
-      name: ruromero/openshift-elasticsearch:5.5.2
+      name: registry.centos.org/rhsyseng/elasticsearch:5.5.2
 ---
 apiVersion: v1
 kind: ServiceAccount
