@@ -7,7 +7,7 @@ metadata:
       [{
       "from": {
         "kind": "ImageStreamTag",
-        "name": "elasticsearch:6.2.1"
+        "name": "elasticsearch:6.2.2"
         },
         "fieldPath": "spec.template.spec.containers[?(@.name==\"elasticsearch\")].image"
       }]
@@ -98,10 +98,10 @@ spec:
   lookupPolicy:
     local: false
   tags:
-  - name: 6.2.1
+  - name: 6.2.2
     from:
       kind: DockerImage
-      name: registry.centos.org/rhsyseng/elasticsearch:6.2.1
+      name: registry.centos.org/rhsyseng/elasticsearch:6.2.2
   - name: 6.1.2
     from:
       kind: DockerImage
