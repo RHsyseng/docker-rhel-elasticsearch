@@ -1,5 +1,7 @@
 # Elasticsearch images for OpenShift
 
+[![Build Status](https://travis-ci.org/ansibleplaybookbundle/es-apb.svg?branch=master)](https://travis-ci.org/RHsyseng/docker-rhel-elasticsearch)
+
 This image includes the [elasticsearch-cloud-kubernetes](https://github.com/fabric8io/elasticsearch-cloud-kubernetes) plugin pre-installed along with
 a default jvm configuration to get the Heap configuration from the cgroups.
 

@@ -1,0 +1,24 @@
+---
+sudo: required
+sevices:
+  - docker
+
+language: python
+python:
+  - '2.7'
+
+env:
+#  - OPENSHIFT_VERSION=latest
+  - OPENSHIFT_VERSION=v3.9
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo sed -i "s/\DOCKER_OPTS=\"/DOCKER_OPTS=\"--insecure-registry=172.30.0.0\/16 /g" /etc/default/docker
+  - sudo cat /etc/default/docker
+  - sudo service docker restart
+
+# Test Stage
+script:
+  - ./tests/prepare.sh
+  - ./tests/verify.sh
+

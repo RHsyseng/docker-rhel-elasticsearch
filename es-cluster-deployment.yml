@@ -7,7 +7,7 @@ metadata:
       [{
       "from": {
         "kind": "ImageStreamTag",
-        "name": "elasticsearch:6.2.2"
+        "name": "elasticsearch:latest"
         },
         "fieldPath": "spec.template.spec.containers[?(@.name==\"elasticsearch\")].image"
       }]
@@ -32,9 +32,21 @@ spec:
           value: elasticsearch-cluster
         - name: LOG_LEVEL
           value: info
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         image: ' '
         imagePullPolicy: IfNotPresent
         name: elasticsearch
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9200
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9200
         ports:
         - containerPort: 9200
           name: api
