@@ -15,8 +15,7 @@ ENV ES_CLOUD_K8S_VER=${ES_VERSION} \
     HOME=/opt/app-root/src \
     JAVA_VER=1.8.0 \
     NODE_QUORUM=1 \
-    SERVICE=es-cluster \
-    NAMESPACE=elasticsearch
+    ES_CLUSTER_SERVICE=elasticsearch-cluster
 
 
 LABEL io.k8s.description="Elasticsearch container" \
