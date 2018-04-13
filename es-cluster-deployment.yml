@@ -27,7 +27,8 @@ spec:
         app: elasticsearch
     spec:
       containers:
-      - env:
+      - name: elasticsearch
+        env:
         - name: SERVICE
           value: elasticsearch-cluster
         - name: LOG_LEVEL
@@ -38,15 +39,14 @@ spec:
               fieldPath: metadata.namespace
         image: ' '
         imagePullPolicy: IfNotPresent
-        name: elasticsearch
         livenessProbe:
           httpGet:
             path: /
             port: 9200
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 9200
+          initialDelaySeconds: 30
+        readinessProbe:
+          tcpSocket:
+            port: 9300
         ports:
         - containerPort: 9200
           name: api
