@@ -15,8 +15,7 @@ ENV ES_CLOUD_K8S_VER=${ES_VERSION} \
     HOME=/opt/app-root/src \
     JAVA_VER=1.8.0 \
     NODE_QUORUM=1 \
-    SERVICE=es-cluster \
-    NAMESPACE=elasticsearch
+    ES_CLUSTER_SERVICE=elasticsearch-cluster
 
 
 LABEL io.k8s.description="Elasticsearch container" \
@@ -35,10 +34,6 @@ RUN yum install -y --setopt=tsflags=nodocs \
     yum clean all
 
 COPY install.sh ${HOME}/
-# BEGIN - While elasticsearch-cloud-kubernetes-6.2.2 is not available on maven repo
-COPY elasticsearch-cloud-kubernetes-6.2.2-SNAPSHOT.zip ${HOME}
-ENV ES_CLOUD_K8S_URL=file://${HOME}/elasticsearch-cloud-kubernetes-6.2.2-SNAPSHOT.zip
-# END
 COPY config/* ${ES_PATH_CONF}/
 RUN ${HOME}/install.sh && \
   rm ${HOME}/*
