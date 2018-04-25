@@ -16,10 +16,9 @@ statefulset "elasticsearch" created
 service "elasticsearch" created
 service "elasticsearch-cluster" created
 imagestream "elasticsearch" created
-serviceaccount "elasticsearch" created
 ```
 
 ## Delete all resources
 ```bash
 $ oc delete all,serviceaccounts -l app=elasticsearch
-``
+```
