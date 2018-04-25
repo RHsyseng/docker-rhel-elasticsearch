@@ -59,8 +59,6 @@ spec:
         - mountPath: /elasticsearch/persistent
           name: elasticsearch-persistent
       securityContext: {}
-      serviceAccount: elasticsearch
-      serviceAccountName: elasticsearch
       volumes:
       - emptyDir: {}
         name: elasticsearch-persistent
@@ -125,10 +123,3 @@ spec:
     from:
       kind: DockerImage
       name: registry.centos.org/rhsyseng/elasticsearch:5.5.2
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: elasticsearch
-  labels:
-    app: elasticsearch
