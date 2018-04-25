@@ -97,6 +97,7 @@ spec:
   selector:
     app: elasticsearch
   type: ClusterIP
+  clusterIP: None
 ---
 apiVersion: v1
 kind: ImageStream
