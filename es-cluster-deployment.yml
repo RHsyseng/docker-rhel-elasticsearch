@@ -16,7 +16,7 @@ metadata:
     app: elasticsearch
 spec:
   podManagementPolicy: OrderedReady
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: elasticsearch
