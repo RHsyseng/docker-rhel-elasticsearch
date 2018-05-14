@@ -32,6 +32,8 @@ spec:
           value: elasticsearch-cluster
         - name: LOG_LEVEL
           value: info
+        - name: NODE_QUORUM
+          value: "2"
         image: ' '
         imagePullPolicy: IfNotPresent
         name: elasticsearch
