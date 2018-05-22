@@ -1,0 +1,227 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elasticsearch-master-conf
+  labels:
+    app: elasticsearch
+    elasticsearch-role: master
+data:
+  elasticsearch.yml: |
+    cluster:
+      name: elasticsearch
+    node:
+      name: ${HOSTNAME}
+    network:
+      host: 0.0.0.0
+    discovery:
+      zen.ping.unicast.hosts: ${ES_CLUSTER_SERVICE}
+      zen.minimum_master_nodes: 2
+    node:
+      master: true
+      data: false
+    path:
+      data: /elasticsearch/persistent/elasticsearch/data
+      logs: /elasticsearch/logs
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elasticsearch-data-conf
+  labels:
+    app: elasticsearch
+    elasticsearch-role: data
+data:
+  elasticsearch.yml: |
+    cluster:
+      name: elasticsearch
+    node:
+      name: ${HOSTNAME}
+    network:
+      host: 0.0.0.0
+    discovery:
+      zen.ping.unicast.hosts: ${ES_CLUSTER_SERVICE}
+      zen.minimum_master_nodes: 1
+    node:
+      master: false
+      data: true
+    path:
+      data: /elasticsearch/persistent/elasticsearch/data
+      logs: /elasticsearch/logs
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    image.openshift.io/triggers: |
+      [{
+      "from": {
+        "kind": "ImageStreamTag",
+        "name": "elasticsearch:5.5.2"
+        },
+        "fieldPath": "spec.template.spec.containers[?(@.name==\"elasticsearch-master\")].image"
+      }]
+  name: elasticsearch-master
+  labels:
+    app: elasticsearch
+    elasticsearch-role: master
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        elasticsearch-role: master
+    spec:
+      containers:
+      - name: elasticsearch-master
+        image: ' '
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SERVICE
+          value: elasticsearch-cluster
+        - name: LOG_LEVEL
+          value: info
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 512Mi
+        ports:
+        - containerPort: 9300
+          name: cluster
+        volumeMounts:
+        - mountPath: /elasticsearch/persistent
+          name: elasticsearch-ephemeral
+        - mountPath: /etc/elasticsearch/elasticsearch.yml
+          subPath: elasticsearch.yml
+          name: elasticsearch-master-conf
+      securityContext: {}
+      volumes:
+      - name: elasticsearch-ephemeral
+        emptyDir: {}
+      - name: elasticsearch-master-conf
+        configMap:
+          name: elasticsearch-master-conf
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: elasticsearch
+  annotations:
+    image.openshift.io/triggers: |
+      [{
+      "from": {
+        "kind": "ImageStreamTag",
+        "name": "elasticsearch:5.5.2"
+        },
+        "fieldPath": "spec.template.spec.containers[?(@.name==\"elasticsearch\")].image"
+      }]
+  labels:
+    app: elasticsearch
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 2
+  selector:
+    matchLabels:
+      app: elasticsearch
+  serviceName: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        elasticsearch-role: data
+    spec:
+      containers:
+      - name: elasticsearch
+        env:
+        - name: SERVICE
+          value: elasticsearch-cluster
+        - name: LOG_LEVEL
+          value: info
+        image: ' '
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9300
+          name: cluster
+          protocol: TCP
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 512Mi
+        volumeMounts:
+        - mountPath: /elasticsearch/persistent
+          name: elasticsearch-persistent
+        - mountPath: /etc/elasticsearch/elasticsearch.yml
+          subPath: elasticsearch.yml
+          name: elasticsearch-data-conf
+      securityContext: {}
+      volumes:
+      - name: elasticsearch-data-conf
+        configMap:
+          name: elasticsearch-data-conf
+      - name: elasticsearch-persistent
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+spec:
+  ports:
+  - name: api
+    port: 9200
+    protocol: TCP
+    targetPort: 9200
+  selector:
+    app: elasticsearch
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-cluster
+  labels:
+    app: elasticsearch
+spec:
+  ports:
+  - name: cluster
+    port: 9300
+    protocol: TCP
+    targetPort: 9300
+  selector:
+    app: elasticsearch
+    elasticsearch-role: master
+  type: ClusterIP
+  clusterIP: None
+---
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+  - name: latest
+    from:
+      kind: DockerImage
+      name: registry.centos.org/rhsyseng/elasticsearch:latest
+  - name: 6.2.2
+    from:
+      kind: DockerImage
+      name: registry.centos.org/rhsyseng/elasticsearch:6.2.2
+  - name: 6.1.2
+    from:
+      kind: DockerImage
+      name: registry.centos.org/rhsyseng/elasticsearch:6.1.2
+  - name: 5.5.2
+    from:
+      kind: DockerImage
+      name: registry.centos.org/rhsyseng/elasticsearch:5.5.2

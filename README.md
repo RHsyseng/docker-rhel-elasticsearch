@@ -9,16 +9,13 @@ This image includes a default jvm configuration to get the Heap configuration fr
  * Installation of Elasticsearch 5.5.2 is done through RPMs
  * The plugin is included directly as binary because it is not yet available on Maven Central
 
-An example deployment file is also included:
-```
-$ oc create -f es-cluster-deployment.yml
-statefulset "elasticsearch" created
-service "elasticsearch" created
-service "elasticsearch-cluster" created
-imagestream "elasticsearch" created
-```
+## OpenShift deployment
+
+There are two deployment files
+ * `es-cluster-deployment.yml` - it provides a basic deployment with 3 Elasticsearch nodes
+ * `es-cluster-deployment-roles.yml` - it provides a deployment with dedicated Elasticsearch nodes (master and data)
 
 ## Delete all resources
-```bash
-$ oc delete all,serviceaccounts -l app=elasticsearch
+```
+$ oc delete all,configmap,imagestream -l app=elasticsearch
 ```
