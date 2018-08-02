@@ -15,7 +15,7 @@ data:
     network:
       host: 0.0.0.0
     discovery:
-      zen.ping.unicast.hosts: ${ES_CLUSTER_SERVICE}
+      zen.ping.unicast.hosts: elasticsearch-cluster
       zen.minimum_master_nodes: 2
     node:
       master: true
@@ -40,7 +40,7 @@ data:
     network:
       host: 0.0.0.0
     discovery:
-      zen.ping.unicast.hosts: ${ES_CLUSTER_SERVICE}
+      zen.ping.unicast.hosts: elasticsearch-cluster
       zen.minimum_master_nodes: 1
     node:
       master: false
@@ -78,8 +78,6 @@ spec:
         image: ' '
         imagePullPolicy: IfNotPresent
         env:
-        - name: SERVICE
-          value: elasticsearch-cluster
         - name: LOG_LEVEL
           value: info
         resources:
@@ -135,8 +133,6 @@ spec:
       containers:
       - name: elasticsearch
         env:
-        - name: SERVICE
-          value: elasticsearch-cluster
         - name: LOG_LEVEL
           value: info
         image: ' '
