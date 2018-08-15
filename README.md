@@ -6,7 +6,7 @@ This image includes a default jvm configuration to get the Heap configuration fr
 
  * [RHEL 7.3 image](./Dockerfile)
  * [CentOS 7 image](./Dockerfile.centos7)
- * Installation of Elasticsearch 5.5.2 is done through RPMs
+ * Installation of Elasticsearch 5.6.10 is done through RPMs
  * The plugin is included directly as binary because it is not yet available on Maven Central
 
 ## OpenShift deployment

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export PROJECT_NAME=docker-rhel-elasticsearch
-export VERSION=5.5.2
+export VERSION=5.6.10
 
 function prepare() {
   sudo docker cp $(docker create docker.io/openshift/origin:$OPENSHIFT_VERSION):/bin/oc /usr/local/bin/oc
