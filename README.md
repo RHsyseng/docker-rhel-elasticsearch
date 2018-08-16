@@ -19,3 +19,13 @@ There are two deployment files
 ```
 $ oc delete all,configmap,imagestream -l app=elasticsearch
 ```
+
+## CentOS Container registry
+
+Container images are available in [registry.centos.org](https://registry.centos.org/containers/).
+
+Images are rebuilt automatically once a referenced repository is updated. See the [Container Index documentation](https://github.com/CentOS/container-index) for more information.
+
+If the image tags also have to be changed, then the yaml configuration file in the container index repository must also be updated manually. 
+
+An example can be found here [CentOS/container-index/pull/356](https://github.com/CentOS/container-index/pull/356).
